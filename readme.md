@@ -5,13 +5,17 @@ Description about the project.
 - Inspiration
 - Why this project, etc!
 
-##Installation instruction
-- How to install
-- What is needed to install
-- How to install on multi-platforms
+##How to use instruction
+This crawler starts with a target url, fetches the web-page of that url and parser all the links  of that page and stores it in a repo. Next it uses the url from the  repo  and repears the same process.This process goes on till a respective number of links are fetched or if it reaches its depth.
+
+In Order to use:
+```
+$ ./crawler -d5 <url>
+here -d5 means the depth of crawler
+```
 
 ##Where to get help
-- Links to docs, mailing list, wiki
+- Create an issue in case you found a bug
 
 ##Contribution guidelines
 - How to contribute
@@ -20,10 +24,8 @@ Description about the project.
 - Links to open issues
 
 ##Contributor list
-- List of contributors of the project
+- Vinit Kumar(@vinitcool76)
 
-##Credits, inspiration, Alternatives
-- Give credit to the parent, inspiration projects
-- Also, show some alternatives
+
 
 
