@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-version = '0.1.0'
+version = '0.1.1'
 
 setup(
     name='pycrawler',
@@ -13,5 +13,6 @@ setup(
     zip_safe=False,
     include_package_data=True,
     install_requires=[
+        'BeautifulSoup',
     ],
 )
