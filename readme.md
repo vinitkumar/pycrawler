@@ -6,7 +6,7 @@ A simple crawler written in Python.
 
 ```sh
 $ pip install pycrawler
-$ ./crawler -d5 http://gotchacode.com // -d5 means crawl to the depth of 5.
+$ ./crawler.py -d5 http://gotchacode.com // -d5 means crawl to the depth of 5.
 ```
 
 ## Results:
