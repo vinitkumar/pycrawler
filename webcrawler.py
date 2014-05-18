@@ -1,3 +1,4 @@
+""" Webcrawler module."""
 #! /usr/bin/env python
 import re
 from traceback import format_exc
@@ -8,7 +9,10 @@ from Queue import Queue, Empty as QueueEmpty
 
 class Webcrawler(object):
 
+    """Webcrawler class that contains the crawling logic."""
+
     def __init__(self, root, depth, locked=True):
+        """ initialize variables."""
         self.root = root
         self.depth = depth
         self.locked = locked
@@ -18,7 +22,7 @@ class Webcrawler(object):
         self.host = urlparse.urlparse(root)[1]
 
     def crawl(self):
-
+        """crawl function to return list of crawled urls."""
         page = Linkfetcher(self.root)
         page.linkfetch()
         queue = Queue()
@@ -55,5 +59,5 @@ class Webcrawler(object):
                         if n > self.depth and self.depth > 0:
                             break
                 except Exception, e:
-                    print "ERROR: The URL '%s' can't be processed due to (%s)" % (url, e)
+                    print "ERROR: The URL '%s' can't be crawled (%s)" % (url, e)
                     print format_exc()
