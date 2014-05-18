@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>linkfetcher.py</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="__init__.html">
+                __init__.py
+              </a>
+            
+              
+              <a class="source" href="crawler.html">
+                crawler.py
+              </a>
+            
+              
+              <a class="source" href="linkfetcher.html">
+                linkfetcher.py
+              </a>
+            
+              
+              <a class="source" href="setup.html">
+                setup.py
+              </a>
+            
+              
+              <a class="source" href="webcrawler.html">
+                webcrawler.py
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>linkfetcher.py</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-string">"""Linkfetcher Class."""</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>! /usr/bin/env python</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">from</span> BeautifulSoup <span class="hljs-keyword">import</span> BeautifulSoup
+<span class="hljs-keyword">from</span> cgi <span class="hljs-keyword">import</span> escape
+<span class="hljs-keyword">import</span> sys
+<span class="hljs-keyword">import</span> urllib2
+<span class="hljs-keyword">import</span> urlparse
+
+__version__ = <span class="hljs-string">"0.0.1"</span>
+Agent = <span class="hljs-string">"%s/%s"</span> % (__name__, __version__)
+
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Linkfetcher</span><span class="hljs-params">(object)</span>:</span>
+
+    <span class="hljs-string">"""Link Fetcher class to abstract the link fetching."""</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, url)</span>:</span>
+        <span class="hljs-string">""" init function to intiate url and urls array."""</span>
+        self.url = url
+        self.urls = []
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">_addHeaders</span><span class="hljs-params">(self, request)</span>:</span>
+        request.add_header(<span class="hljs-string">"User-Agent"</span>, Agent)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__getitem__</span><span class="hljs-params">(self, x)</span>:</span>
+        <span class="hljs-string">"""Get item."""</span>
+        <span class="hljs-keyword">return</span> self.urls[x]
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">open</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-string">"""Open the URL with urllib2."""</span>
+        url = self.url
+        <span class="hljs-keyword">try</span>:
+            request = urllib2.Request(url)
+            handle = urllib2.build_opener()
+        <span class="hljs-keyword">except</span> IOError:
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">None</span>
+        <span class="hljs-keyword">return</span> (request, handle)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">linkfetch</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-string">"""Linkfetch function to actually fetch links."""</span>
+        request, handle = self.open()
+        self._addHeaders(request)
+        <span class="hljs-keyword">if</span> handle:
+            <span class="hljs-keyword">try</span>:
+                content = unicode(handle.open(request).read(), <span class="hljs-string">"utf-8"</span>,
+                                  errors=<span class="hljs-string">"replace"</span>)
+                soup = BeautifulSoup(content)
+                tags = soup(<span class="hljs-string">'a'</span>)
+            <span class="hljs-keyword">except</span> urllib2.HTTPError, error:
+
+                <span class="hljs-keyword">if</span> error.code == <span class="hljs-number">404</span>:
+                    <span class="hljs-keyword">print</span> &gt;&gt; sys.stderr, <span class="hljs-string">"ERROR: %s -&gt; %s"</span> % (error, error.url)
+                <span class="hljs-keyword">else</span>:
+                    <span class="hljs-keyword">print</span> &gt;&gt; sys.stderr, <span class="hljs-string">"ERROR: %s"</span> % error
+                tags = []
+
+            <span class="hljs-keyword">except</span> urllib2.URLError, error:
+                <span class="hljs-keyword">print</span> &gt;&gt; sys.stderr, <span class="hljs-string">"ERROR: %s"</span> % error
+                tags = []
+            <span class="hljs-keyword">for</span> tag <span class="hljs-keyword">in</span> tags:
+                href = tag.get(<span class="hljs-string">"href"</span>)
+                <span class="hljs-keyword">if</span> href <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">None</span>:
+                    url = urlparse.urljoin(self.url, escape(href))
+                    <span class="hljs-keyword">if</span> url <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> self:
+                        self.urls.append(url)</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
