@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>crawler.py</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="__init__.html">
+                __init__.py
+              </a>
+            
+              
+              <a class="source" href="crawler.html">
+                crawler.py
+              </a>
+            
+              
+              <a class="source" href="linkfetcher.html">
+                linkfetcher.py
+              </a>
+            
+              
+              <a class="source" href="setup.html">
+                setup.py
+              </a>
+            
+              
+              <a class="source" href="webcrawler.html">
+                webcrawler.py
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>crawler.py</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-string">""" Main class for Crawler."""</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>! /usr/bin/env python</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">import</span> time
+<span class="hljs-keyword">import</span> optparse
+<span class="hljs-keyword">from</span> linkfetcher <span class="hljs-keyword">import</span> Linkfetcher
+<span class="hljs-keyword">from</span> webcrawler <span class="hljs-keyword">import</span> Webcrawler
+
+Usage = <span class="hljs-string">'''
+ $ ./crawler -d5 &lt;url&gt;
+    Here in this case it goes till depth of 5 and url is target URL to
+    start crawling.
+'''</span>
+Version = <span class="hljs-string">'0.0.1'</span>
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">option_parser</span><span class="hljs-params">()</span>:</span>
+    <span class="hljs-string">"""Option Parser to give various options."""</span>
+    parser = optparse.OptionParser(usage=Usage, version=Version)
+
+    parser.add_option(<span class="hljs-string">"-l"</span>, <span class="hljs-string">"--links"</span>, action=<span class="hljs-string">"store_true"</span>,
+                      default=<span class="hljs-keyword">False</span>, dest=<span class="hljs-string">"links"</span>, help=<span class="hljs-string">"links for target url"</span>)
+
+    parser.add_option(<span class="hljs-string">"-d"</span>, <span class="hljs-string">"--depth"</span>, action=<span class="hljs-string">"store"</span>, type=<span class="hljs-string">"int"</span>,
+                      default=<span class="hljs-number">30</span>, dest=<span class="hljs-string">"depth"</span>, help=<span class="hljs-string">"Maximum depth traverse"</span>)
+    opts, args = parser.parse_args()
+
+    <span class="hljs-keyword">if</span> len(args) &lt; <span class="hljs-number">1</span>:
+        parser.print_help()
+        <span class="hljs-keyword">raise</span> SystemExit(<span class="hljs-number">1</span>)
+
+    <span class="hljs-keyword">return</span> opts, args
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">getlinks</span><span class="hljs-params">(url)</span>:</span>
+    <span class="hljs-string">"""Get Links from the Linkfetcher class."""</span>
+    page = Linkfetcher(url)
+    page.linkfetch()
+    <span class="hljs-keyword">for</span> i, url <span class="hljs-keyword">in</span> enumerate(page):
+        <span class="hljs-keyword">print</span> <span class="hljs-string">"%d ==&gt; %s"</span> % (i, url)
+
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">main</span><span class="hljs-params">()</span>:</span>
+    <span class="hljs-string">""" Main class."""</span>
+    opts, args = option_parser()
+    url = args[<span class="hljs-number">0</span>]
+
+    <span class="hljs-keyword">if</span> opts.links:
+        getlinks(url)
+        <span class="hljs-keyword">raise</span> SystemExit(<span class="hljs-number">0</span>)
+
+    depth = opts.depth
+
+    sTime = time.time()
+
+    <span class="hljs-keyword">print</span> <span class="hljs-string">"CRAWLER STARTED:"</span>
+    <span class="hljs-keyword">print</span> <span class="hljs-string">"%s, will crawl upto depth %d"</span> % (url, depth)
+    <span class="hljs-keyword">print</span> <span class="hljs-string">"==============================================================="</span>
+    webcrawler = Webcrawler(url, depth)
+    webcrawler.crawl()
+    <span class="hljs-keyword">print</span> <span class="hljs-string">"\n"</span>.join(webcrawler.urls)
+
+    eTime = time.time()
+    tTime = eTime - sTime
+    <span class="hljs-keyword">print</span> <span class="hljs-string">"\n"</span>
+    <span class="hljs-keyword">print</span> <span class="hljs-string">"Crawler Statistics"</span>
+    <span class="hljs-keyword">print</span> <span class="hljs-string">"=================="</span>
+    <span class="hljs-keyword">print</span> <span class="hljs-string">"No of links Found: %d"</span> % webcrawler.links
+    <span class="hljs-keyword">print</span> <span class="hljs-string">"No of follwed:     %d"</span> % webcrawler.followed
+    <span class="hljs-keyword">print</span> <span class="hljs-string">"Time Stats : Found all links  after %0.2fs"</span> % tTime
+
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">"__main__"</span>:
+    main()</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
