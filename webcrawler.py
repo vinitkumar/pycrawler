@@ -1,9 +1,8 @@
 """ Webcrawler module."""
-#! /usr/bin/env python
 import re
 from traceback import format_exc
 import urlparse
-from linkfetcher import Linkfetcher
+from .linkfetcher import Linkfetcher
 from Queue import Queue, Empty as QueueEmpty
 
 

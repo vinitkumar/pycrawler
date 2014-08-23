@@ -2,20 +2,20 @@
 #! /usr/bin/env python
 import time
 import optparse
-from linkfetcher import Linkfetcher
-from webcrawler import Webcrawler
-
-Usage = '''
- $ ./crawler -d5 <url>
-    Here in this case it goes till depth of 5 and url is target URL to
-    start crawling.
-'''
-Version = '0.0.1'
+from .linkfetcher import Linkfetcher
+from .webcrawler import Webcrawler
 
 
 def option_parser():
     """Option Parser to give various options."""
-    parser = optparse.OptionParser(usage=Usage, version=Version)
+    usage = '''
+             $ ./crawler -d5 <url>
+                Here in this case it goes till depth of 5 and url is target URL to
+                start crawling.
+            '''
+    version = '0.0.1'
+
+    parser = optparse.OptionParser(usage=usage, version=version)
 
     parser.add_option("-l", "--links", action="store_true",
                       default=False, dest="links", help="links for target url")
