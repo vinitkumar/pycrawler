@@ -6,21 +6,21 @@ import sys
 import urllib2
 import urlparse
 
-__version__ = "0.0.1"
-Agent = "%s/%s" % (__name__, __version__)
-
 
 class Linkfetcher(object):
-
     """Link Fetcher class to abstract the link fetching."""
-
+            
     def __init__(self, url):
         """ init function to intiate url and urls array."""
         self.url = url
         self.urls = []
+        self.__version__ = "0.0.1"
+        self.agent = "%s/%s" % (__name__, self.__version__)
+
 
     def _addHeaders(self, request):
-        request.add_header("User-Agent", Agent)
+        """ Add headers for the crawler"""
+        request.add_header("User-Agent", self.agent)
 
     def __getitem__(self, x):
         """Get item."""
