@@ -1,9 +1,11 @@
 """ Webcrawler module."""
+from __future__ import absolute_import
+from __future__ import print_function
 import re
 from traceback import format_exc
 import urlparse
 from .linkfetcher import Linkfetcher
-from Queue import Queue, Empty as QueueEmpty
+from six.moves.queue import Queue, Empty as QueueEmpty
 
 
 class Webcrawler(object):
@@ -57,6 +59,6 @@ class Webcrawler(object):
 
                         if n > self.depth and self.depth > 0:
                             break
-                except Exception, e:
-                    print "ERROR: The URL '%s' can't be crawled (%s)" % (url, e)
-                    print format_exc()
+                except Exception as e:
+                    print("ERROR: The URL '%s' can't be crawled (%s)" % (url, e))
+                    print(format_exc())

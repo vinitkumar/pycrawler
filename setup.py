@@ -1,4 +1,5 @@
 """Setuptools."""
+from __future__ import absolute_import
 from setuptools import setup, find_packages
 
 version = '0.1.3'

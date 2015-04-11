@@ -1,10 +1,13 @@
 """Linkfetcher Class."""
+from __future__ import absolute_import
+from __future__ import print_function
 #! /usr/bin/env python
 from BeautifulSoup import BeautifulSoup
 from cgi import escape
 import sys
 import urllib2
 import urlparse
+import six
 
 
 class Linkfetcher(object):
@@ -42,20 +45,20 @@ class Linkfetcher(object):
         self._addHeaders(request)
         if handle:
             try:
-                content = unicode(handle.open(request).read(), "utf-8",
+                content = six.text_type(handle.open(request).read(), "utf-8",
                                   errors="replace")
                 soup = BeautifulSoup(content)
                 tags = soup('a')
-            except urllib2.HTTPError, error:
+            except urllib2.HTTPError as error:
 
                 if error.code == 404:
-                    print >> sys.stderr, "ERROR: %s -> %s" % (error, error.url)
+                    print("ERROR: %s -> %s" % (error, error.url), file=sys.stderr)
                 else:
-                    print >> sys.stderr, "ERROR: %s" % error
+                    print("ERROR: %s" % error, file=sys.stderr)
                 tags = []
 
-            except urllib2.URLError, error:
-                print >> sys.stderr, "ERROR: %s" % error
+            except urllib2.URLError as error:
+                print("ERROR: %s" % error, file=sys.stderr)
                 tags = []
             for tag in tags:
                 href = tag.get("href")

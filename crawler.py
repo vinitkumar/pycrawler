@@ -1,4 +1,6 @@
 """ Main class for Crawler."""
+from __future__ import absolute_import
+from __future__ import print_function
 #! /usr/bin/env python
 import time
 import optparse
@@ -36,7 +38,7 @@ def getlinks(url):
     page = Linkfetcher(url)
     page.linkfetch()
     for i, url in enumerate(page):
-        print "%d ==> %s" % (i, url)
+        print("%d ==> %s" % (i, url))
 
 
 def main():
@@ -52,21 +54,21 @@ def main():
 
     sTime = time.time()
 
-    print "CRAWLER STARTED:"
-    print "%s, will crawl upto depth %d" % (url, depth)
-    print "==============================================================="
+    print("CRAWLER STARTED:")
+    print("%s, will crawl upto depth %d" % (url, depth))
+    print("===============================================================")
     webcrawler = Webcrawler(url, depth)
     webcrawler.crawl()
-    print "\n".join(webcrawler.urls)
+    print("\n".join(webcrawler.urls))
 
     eTime = time.time()
     tTime = eTime - sTime
-    print "\n"
-    print "Crawler Statistics"
-    print "=================="
-    print "No of links Found: %d" % webcrawler.links
-    print "No of follwed:     %d" % webcrawler.followed
-    print "Time Stats : Found all links  after %0.2fs" % tTime
+    print("\n")
+    print("Crawler Statistics")
+    print("==================")
+    print("No of links Found: %d" % webcrawler.links)
+    print("No of follwed:     %d" % webcrawler.followed)
+    print("Time Stats : Found all links  after %0.2fs" % tTime)
 
 
 if __name__ == "__main__":
