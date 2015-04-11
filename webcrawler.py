@@ -1,9 +1,9 @@
 """ Webcrawler module."""
 import re
 from traceback import format_exc
-import urlparse
-from .linkfetcher import Linkfetcher
-from Queue import Queue, Empty as QueueEmpty
+import urllib.parse
+from linkfetcher import Linkfetcher
+from six.moves.queue import Queue, Empty as QueueEmpty
 
 
 class Webcrawler(object):
@@ -18,7 +18,7 @@ class Webcrawler(object):
         self.links = 0
         self.followed = 0
         self.urls = []
-        self.host = urlparse.urlparse(root)[1]
+        self.host = urllib.parse.urlparse(root)[1]
 
     def crawl(self):
         """crawl function to return list of crawled urls."""
@@ -42,7 +42,7 @@ class Webcrawler(object):
             if url not in followed:
                 try:
 
-                    host = urlparse.urlparse(url)[1]
+                    host = urllib.parse.urlparse(url)[1]
 
                     if self.locked and re.match(".*%s" % self.host, host):
                         followed.append(url)
@@ -57,6 +57,6 @@ class Webcrawler(object):
 
                         if n > self.depth and self.depth > 0:
                             break
-                except Exception, e:
-                    print "ERROR: The URL '%s' can't be crawled (%s)" % (url, e)
-                    print format_exc()
+                except Exception as e:
+                    print("ERROR: The URL '%s' can't be crawled (%s)" % (url, e))
+                    print(format_exc())

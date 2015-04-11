@@ -1,7 +1,8 @@
 """Setuptools."""
+from __future__ import absolute_import
 from setuptools import setup, find_packages
 
-version = '0.1.3'
+version = '1.0.0'
 
 setup(
     name='pycrawler',
@@ -14,6 +15,15 @@ setup(
     zip_safe=False,
     include_package_data=True,
     install_requires=[
-        'BeautifulSoup',
+        'beautifulsoup4==4.3.2',
+        'modernize==0.4',
+        'six==1.9.0',
+        'astroid==1.3.6',
+        'future==0.14.3',
+        'gnureadline==6.3.3',
+        'ipython==3.1.0',
+        'logilab-common==0.63.2',
+        'modernize==0.4',
+        'six==1.9.0',
     ],
 )
