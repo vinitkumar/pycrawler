@@ -4,9 +4,18 @@ A simple crawler written in Python.
 
 ## Installation and Use
 
+### Setup VirtualEnv
+
 ```sh
-$ pip install pycrawler
-$ ./crawler.py -d5 http://gotchacode.com // -d5 means crawl to the depth of 5.
+which python3.4 # this will output the path of your python3.4 
+#now setup a python3 virtualenv
+mkvirtualenv crawl3 -p /Library/Frameworks/Python.framework/Versions/3.4/bin/python3.4
+```
+
+
+```sh
+$ pip3 install pycrawler
+$ python crawler.py -d5 http://gotchacode.com // -d5 means crawl to the depth of 5.
 ```
 
 ## Results:

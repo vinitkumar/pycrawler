@@ -1,11 +1,9 @@
-""" Main class for Crawler."""
-from __future__ import absolute_import
-from __future__ import print_function
-#! /usr/bin/env python
+#!/usr/bin/python
+from __future__ import absolute_import, print_function
 import time
 import optparse
-from .linkfetcher import Linkfetcher
-from .webcrawler import Webcrawler
+from linkfetcher import Linkfetcher
+from webcrawler import Webcrawler
 
 
 def option_parser():

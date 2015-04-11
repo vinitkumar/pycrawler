@@ -1,12 +1,12 @@
+#!/usr/bin/python
 """Linkfetcher Class."""
 from __future__ import absolute_import
 from __future__ import print_function
-#! /usr/bin/env python
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 from cgi import escape
 import sys
-import urllib2
-import urlparse
+import urllib.request
+import urllib.parse
 import six
 
 
@@ -30,11 +30,11 @@ class Linkfetcher(object):
         return self.urls[x]
 
     def open(self):
-        """Open the URL with urllib2."""
+        """Open the URL with urllib.request."""
         url = self.url
         try:
-            request = urllib2.Request(url)
-            handle = urllib2.build_opener()
+            request = urllib.request.Request(url)
+            handle = urllib.request.build_opener()
         except IOError:
             return None
         return (request, handle)
@@ -49,7 +49,7 @@ class Linkfetcher(object):
                                   errors="replace")
                 soup = BeautifulSoup(content)
                 tags = soup('a')
-            except urllib2.HTTPError as error:
+            except urllib.request.HTTPError as error:
 
                 if error.code == 404:
                     print("ERROR: %s -> %s" % (error, error.url), file=sys.stderr)
@@ -57,12 +57,12 @@ class Linkfetcher(object):
                     print("ERROR: %s" % error, file=sys.stderr)
                 tags = []
 
-            except urllib2.URLError as error:
+            except urllib.request.URLError as error:
                 print("ERROR: %s" % error, file=sys.stderr)
                 tags = []
             for tag in tags:
                 href = tag.get("href")
                 if href is not None:
-                    url = urlparse.urljoin(self.url, escape(href))
+                    url = urllib.parse.urljoin(self.url, escape(href))
                     if url not in self:
                         self.urls.append(url)
