@@ -31,12 +31,12 @@ def option_parser():
     return opts, args
 
 
-def getlinks(url):
+async def getlinks(url):
     """Get Links from the Linkfetcher class."""
     page = Linkfetcher(url)
-    page.linkfetch()
+    await page.linkfetch()
     for i, url in enumerate(page):
-        print("%d ==> %s" % (i, url))
+        return (i, url)
 
 
 def main():
