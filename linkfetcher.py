@@ -47,7 +47,7 @@ class Linkfetcher(object):
             try:
                 content = six.text_type(handle.open(request).read(), "utf-8",
                                   errors="replace")
-                soup = BeautifulSoup(content)
+                soup = BeautifulSoup(content, "html.parser")
                 tags = soup('a')
             except urllib.request.HTTPError as error:
 
