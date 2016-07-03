@@ -1,7 +1,6 @@
-#!/usr/bin/python
-from __future__ import absolute_import, print_function
-import time
 import optparse
+import time
+
 from linkfetcher import Linkfetcher
 from webcrawler import Webcrawler
 
@@ -13,7 +12,7 @@ def option_parser():
                 Here in this case it goes till depth of 5 and url is target URL to
                 start crawling.
             '''
-    version = '0.0.1'
+    version = '2.0.0'
 
     parser = optparse.OptionParser(usage=usage, version=version)
 
@@ -34,7 +33,7 @@ def option_parser():
 def getlinks(url):
     """Get Links from the Linkfetcher class."""
     page = Linkfetcher(url)
-    page.linkfetch()
+    page.fetch_links()
     for i, url in enumerate(page):
         print("%d ==> %s" % (i, url))
 

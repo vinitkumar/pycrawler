@@ -2,24 +2,25 @@
 """Linkfetcher Class."""
 from __future__ import absolute_import
 from __future__ import print_function
-from bs4 import BeautifulSoup
-from cgi import escape
+
 import sys
-import urllib.request
 import urllib.parse
+import urllib.request
+from html import escape
+
 import six
+from bs4 import BeautifulSoup
 
 
 class Linkfetcher(object):
     """Link Fetcher class to abstract the link fetching."""
-            
+
     def __init__(self, url):
         """ init function to intiate url and urls array."""
         self.url = url
         self.urls = []
         self.__version__ = "0.0.1"
         self.agent = "%s/%s" % (__name__, self.__version__)
-
 
     def _addHeaders(self, request):
         """ Add headers for the crawler"""
@@ -37,16 +38,16 @@ class Linkfetcher(object):
             handle = urllib.request.build_opener()
         except IOError:
             return None
-        return (request, handle)
+        return request, handle
 
-    def linkfetch(self):
-        """Linkfetch function to actually fetch links."""
+    def fetch_links(self):
+        """fetch links."""
         request, handle = self.open()
         self._addHeaders(request)
         if handle:
             try:
                 content = six.text_type(handle.open(request).read(), "utf-8",
-                                  errors="replace")
+                                        errors="replace")
                 soup = BeautifulSoup(content, "html.parser")
                 tags = soup('a')
             except urllib.request.HTTPError as error:
