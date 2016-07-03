@@ -1,15 +1,15 @@
 ## Description
 
-A simple crawler written in Python.
+A simple crawler written in Python (3.5+).
 
 ## Installation and Use
 
 ### Setup VirtualEnv
 
 ```sh
-which python3.4 # this will output the path of your python3.4 
+which python3.5 # this will output the path of your python3.5 
 #now setup a python3 virtualenv
-mkvirtualenv crawl3 -p /Library/Frameworks/Python.framework/Versions/3.4/bin/python3.4
+mkvirtualenv crawl3 -p /Library/Frameworks/Python.framework/Versions/3.5/bin/python3.5
 ```
 
 
