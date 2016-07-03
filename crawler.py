@@ -1,5 +1,5 @@
 #!/usr/bin/python
-from __future__ import absolute_import, print_function
+import asyncio
 import time
 import optparse
 from linkfetcher import Linkfetcher
@@ -39,7 +39,7 @@ async def getlinks(url):
         return (i, url)
 
 
-def main():
+async def main():
     """ Main class."""
     opts, args = option_parser()
     url = args[0]
@@ -70,4 +70,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
