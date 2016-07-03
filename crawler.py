@@ -4,7 +4,15 @@ import time
 import optparse
 from linkfetcher import Linkfetcher
 from webcrawler import Webcrawler
+import logging
 
+logger = logging.getLogger()
+handler = logging.StreamHandler()
+formatter = logging.Formatter(
+        '%(name)-12s %(levelname)-8s %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+logger.setLevel(logging.DEBUG)
 
 def option_parser():
     """Option Parser to give various options."""
@@ -13,7 +21,7 @@ def option_parser():
                 Here in this case it goes till depth of 5 and url is target URL to
                 start crawling.
             '''
-    version = '0.0.1'
+    version = "2.0.0"
 
     parser = optparse.OptionParser(usage=usage, version=version)
 
@@ -51,22 +59,20 @@ async def main():
     depth = opts.depth
 
     sTime = time.time()
-
-    print("CRAWLER STARTED:")
-    print("%s, will crawl upto depth %d" % (url, depth))
-    print("===============================================================")
     webcrawler = Webcrawler(url, depth)
     webcrawler.crawl()
-    print("\n".join(webcrawler.urls))
-
     eTime = time.time()
     tTime = eTime - sTime
-    print("\n")
-    print("Crawler Statistics")
-    print("==================")
-    print("No of links Found: %d" % webcrawler.links)
-    print("No of follwed:     %d" % webcrawler.followed)
-    print("Time Stats : Found all links  after %0.2fs" % tTime)
+    logger.info("CRAWLER STARTED:")
+    logger.info("%s, will crawl upto depth %d" % (url, depth))
+    logger.info("*****RESULTS")
+    logger.info("\n".join(webcrawler.urls))
+    logger.info("=" * 100)
+    logger.info("Crawler Statistics")
+    logger.info("=" * 100)
+    logger.info("No of links Found: %d" % webcrawler.links)
+    logger.info("No of followed:     %d" % webcrawler.followed)
+    logger.info("Time Stats : Found all links  after %0.2fs" % tTime)
 
 
 if __name__ == "__main__":
