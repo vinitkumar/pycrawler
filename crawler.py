@@ -2,8 +2,8 @@
 import asyncio
 import time
 import optparse
-from linkfetcher import Linkfetcher
-from webcrawler import Webcrawler
+from .linkfetcher import Linkfetcher
+from .webcrawler import Webcrawler
 import logging
 
 logger = logging.getLogger()

@@ -2,7 +2,7 @@
 import re
 from traceback import format_exc
 import urllib.parse
-from linkfetcher import Linkfetcher
+from .linkfetcher import Linkfetcher
 from six.moves.queue import Queue, Empty as QueueEmpty
 
 
