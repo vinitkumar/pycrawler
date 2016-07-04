@@ -1,5 +1,6 @@
 *.pyc
 build/
 dist/
-
+.cache
+.project
 pycrawler.egg-info
