@@ -20,7 +20,7 @@ $ python crawler.py -d5 http://gotchacode.com // -d5 means crawl to the depth of
 
 ## Results:
 
-The Library is now ported to Python3, The results also showcase the different in speed.
+The Library is now ported to Python3, The results also showcase the difference in speed.
 
 
 Results for latest python3 compatible library:
