@@ -1,5 +1,7 @@
 ## Description
 
+[![Build Status](https://travis-ci.org/vinitkumar/pycrawler.svg?branch=master)](https://travis-ci.org/vinitkumar/pycrawler)
+
 A simple crawler written in Python (3.5+).
 
 ## Installation and Use
