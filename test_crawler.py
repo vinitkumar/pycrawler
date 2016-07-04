@@ -1,4 +1,4 @@
-from webcrawler import Webcrawler
+from .webcrawler import Webcrawler
 
 
 def test_crawler():
