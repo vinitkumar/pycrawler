@@ -22,8 +22,11 @@ setup(
         'future==0.14.3',
         'gnureadline==6.3.3',
         'ipython==3.1.0',
+        'pytest==2.9.2',
         'logilab-common==0.63.2',
         'modernize==0.4',
         'six==1.9.0',
+        'pytest-cov==2.2.1',
+        'python-coveralls==2.7.0',
     ],
 )

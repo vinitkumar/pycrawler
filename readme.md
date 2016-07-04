@@ -1,6 +1,7 @@
 ## Description
 
 [![Build Status](https://travis-ci.org/vinitkumar/pycrawler.svg?branch=master)](https://travis-ci.org/vinitkumar/pycrawler)
+[![Coverage Status](https://coveralls.io/repos/github/vinitkumar/pycrawler/badge.svg?branch=feature%2Fadd-coverage-coveralls)](https://coveralls.io/github/vinitkumar/pycrawler?branch=feature%2Fadd-coverage-coveralls)
 
 A simple crawler written in Python (3.5+).
 
@@ -9,7 +10,7 @@ A simple crawler written in Python (3.5+).
 ### Setup VirtualEnv
 
 ```sh
-which python3.5 # this will output the path of your python3.5 
+which python3.5 # this will output the path of your python3.5
 #now setup a python3 virtualenv
 mkvirtualenv crawl3 -p /Library/Frameworks/Python.framework/Versions/3.5/bin/python3.5
 ```
