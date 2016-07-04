@@ -1,6 +1,6 @@
 language: python
 python:
-    - 3.5.0
+    - 3.5.2
 install: "python setup.py install"
 script:
     - py.test
