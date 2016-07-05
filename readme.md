@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/vinitkumar/pycrawler.svg?branch=master)](https://travis-ci.org/vinitkumar/pycrawler)
 [![Coverage Status](https://coveralls.io/repos/github/vinitkumar/pycrawler/badge.svg?branch=feature%2Fadd-coverage-coveralls)](https://coveralls.io/github/vinitkumar/pycrawler?branch=feature%2Fadd-coverage-coveralls)
 
-A simple crawler written in Python (3.5+).
+A simple crawler written in Python (only works on 3.5+).
 
 ## Installation and Use
 
