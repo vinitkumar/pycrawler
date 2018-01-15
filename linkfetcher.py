@@ -49,6 +49,13 @@ class Linkfetcher(object):
                                     errors="replace")
             soup = BeautifulSoup(content, "html.parser")
             tags = soup('a')
+            for tag in tags:
+                href = tag.get("href")
+                if href is not None:
+                    url = urllib.parse.urljoin(self.url, escape(href))
+                    if url not in self:
+                        self.urls.append(url)
+
         except urllib.request.HTTPError as error:
             if error.code == 404:
                 logger.warning("ERROR: %s -> %s for %s" % (error, error.url, self.url))
@@ -59,12 +66,6 @@ class Linkfetcher(object):
             logger.warning("ERROR: %s for %s" % (error, self.url))
             raise urllib.request.URLError("URL entered is Incorrect")
 
-        for tag in tags:
-            href = tag.get("href")
-            if href is not None:
-                url = urllib.parse.urljoin(self.url, escape(href))
-                if url not in self:
-                    self.urls.append(url)
 
     def linkfetch(self):
         request, handle = self.open()
