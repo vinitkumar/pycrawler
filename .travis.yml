@@ -4,6 +4,6 @@ python:
     - 3.6.4
 install: "python setup.py install"
 script:
-    - py.test
+    - python test_crawler.py
 after_success:
     - coveralls
