@@ -1,6 +1,5 @@
 from webcrawler import Webcrawler
 
-
 def test_crawler():
     url = 'http://gotchacode.com'
     depth = 2
