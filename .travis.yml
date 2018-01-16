@@ -1,6 +1,7 @@
 language: python
 python:
-    - 3.5.2
+    - 3.6.3
+    - 3.6.4
 install: "python setup.py install"
 script:
     - py.test --cov=.
