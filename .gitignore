@@ -4,3 +4,4 @@ dist/
 .cache
 .project
 pycrawler.egg-info
+.coverage

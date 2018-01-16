@@ -1,13 +1,13 @@
 #!/usr/bin/python
 """Linkfetcher Class."""
-from bs4 import BeautifulSoup
-from html import escape
 import sys
 import asyncio
 import urllib.request
 import urllib.parse
 import six
 import logging
+from bs4 import BeautifulSoup
+from html import escape
 
 logger = logging.getLogger()
 handler = logging.StreamHandler()
@@ -27,6 +27,7 @@ class Linkfetcher(object):
         self.agent = "%s/%s" % (__name__, self.__version__)
 
     def _add_headers(self, request):
+        """Add User Agent headers for the request"""
         request.add_header("User-Agent", self.agent)
 
     def __getitem__(self, x):
@@ -43,7 +44,11 @@ class Linkfetcher(object):
             return None
         return (request, handle)
 
-    def get_crawled_urls(self, handle, request):
+    def _get_crawled_urls(self, handle, request):
+        """
+        Main method where the crawler html content is parsed with 
+        beautiful soup and out of the DOM, we get the urls
+        """
         try:
             content = six.text_type(handle.open(request).read(), "utf-8",
                                     errors="replace")
@@ -68,9 +73,12 @@ class Linkfetcher(object):
 
 
     def linkfetch(self):
+        """"
+        Public method to call the internal methods
+        """
         request, handle = self.open()
         self._add_headers(request)
         if handle:
-            self.get_crawled_urls(handle, request)
+            self._get_crawled_urls(handle, request)
 
 
