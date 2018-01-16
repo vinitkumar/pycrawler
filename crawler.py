@@ -12,7 +12,7 @@ formatter = logging.Formatter(
         '%(name)-12s %(levelname)-8s %(message)s')
 handler.setFormatter(formatter)
 logger.addHandler(handler)
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 def option_parser():
     """Option Parser to give various options."""
@@ -63,16 +63,16 @@ async def main():
     webcrawler.crawl()
     eTime = time.time()
     tTime = eTime - sTime
-    logger.info("CRAWLER STARTED:")
-    logger.info("%s, will crawl upto depth %d" % (url, depth))
-    logger.info("*****RESULTS")
-    logger.info("\n".join(webcrawler.urls))
-    logger.info("=" * 100)
-    logger.info("Crawler Statistics")
-    logger.info("=" * 100)
-    logger.info("No of links Found: %d" % webcrawler.links)
-    logger.info("No of followed:     %d" % webcrawler.followed)
-    logger.info("Time Stats : Found all links  after %0.2fs" % tTime)
+    print("CRAWLER STARTED:")
+    print("%s, will crawl upto depth %d" % (url, depth))
+    print("*****RESULTS")
+    print("\n".join(webcrawler.urls))
+    print("=" * 100)
+    print("Crawler Statistics")
+    print("=" * 100)
+    print("No of links Found: %d" % webcrawler.links)
+    print("No of followed:     %d" % webcrawler.followed)
+    print("Time Stats : Found all links  after %0.2fs" % tTime)
 
 
 if __name__ == "__main__":
