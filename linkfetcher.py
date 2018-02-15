@@ -8,6 +8,7 @@ import six
 import logging
 from bs4 import BeautifulSoup
 from html import escape
+from tqdm import tqdm
 
 logger = logging.getLogger()
 handler = logging.StreamHandler()
@@ -46,7 +47,7 @@ class Linkfetcher(object):
 
     def _get_crawled_urls(self, handle, request):
         """
-        Main method where the crawler html content is parsed with 
+        Main method where the crawler html content is parsed with
         beautiful soup and out of the DOM, we get the urls
         """
         try:
@@ -54,7 +55,7 @@ class Linkfetcher(object):
                                     errors="replace")
             soup = BeautifulSoup(content, "html.parser")
             tags = soup('a')
-            for tag in tags:
+            for tag in tqdm(tags):
                 href = tag.get("href")
                 if href is not None:
                     url = urllib.parse.urljoin(self.url, escape(href))

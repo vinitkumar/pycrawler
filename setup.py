@@ -26,6 +26,7 @@ setup(
         'logilab-common==0.63.2',
         'modernize==0.4',
         'six==1.9.0',
+        'tqdm==4.19.5',
         'pytest-cov==2.2.1',
         'python-coveralls==2.7.0',
     ],
