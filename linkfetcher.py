@@ -12,11 +12,11 @@ from tqdm import tqdm
 
 logger = logging.getLogger()
 handler = logging.StreamHandler()
-formatter = logging.Formatter(
-        '%(name)-12s %(levelname)-8s %(message)s')
+formatter = logging.Formatter("%(name)-12s %(levelname)-8s %(message)s")
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 logger.setLevel(logging.DEBUG)
+
 
 class Linkfetcher(object):
     """Link Fetcher class to abstract the link fetching."""
@@ -51,10 +51,11 @@ class Linkfetcher(object):
         beautiful soup and out of the DOM, we get the urls
         """
         try:
-            content = six.text_type(handle.open(request).read(), "utf-8",
-                                    errors="replace")
+            content = six.text_type(
+                handle.open(request).read(), "utf-8", errors="replace"
+            )
             soup = BeautifulSoup(content, "html.parser")
-            tags = soup('a')
+            tags = soup("a")
             for tag in tqdm(tags):
                 href = tag.get("href")
                 if href is not None:
@@ -72,7 +73,6 @@ class Linkfetcher(object):
             logger.warning("ERROR: %s for %s" % (error, self.url))
             raise urllib.request.URLError("URL entered is Incorrect")
 
-
     def linkfetch(self):
         """"
         Public method to call the internal methods
@@ -81,5 +81,3 @@ class Linkfetcher(object):
         self._add_headers(request)
         if handle:
             self._get_crawled_urls(handle, request)
-
-

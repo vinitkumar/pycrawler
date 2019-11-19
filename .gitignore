@@ -1,4 +1,6 @@
 *.pyc
+.mypy_cache
+docs/
 build/
 dist/
 .cache
