@@ -4,6 +4,7 @@ from traceback import format_exc
 import urllib.parse
 from linkfetcher import Linkfetcher
 from six.moves.queue import Queue, Empty as QueueEmpty
+from collections import deque
 
 
 class Webcrawler(object):
@@ -24,17 +25,17 @@ class Webcrawler(object):
         """crawl function to return list of crawled urls."""
         page = Linkfetcher(self.root)
         page.linkfetch()
-        queue = Queue()
+        queue = deque()
         for url in page.urls:
-            queue.put(url)
+            queue.append(url)
         followed = [self.root]
 
         n = 0
 
         while True:
             try:
-                url = queue.get()
-            except QueueEmpty:
+                url = queue.pop()
+            except IndexError:
                 break
 
             n += 1
@@ -52,7 +53,7 @@ class Webcrawler(object):
                         for i, url in enumerate(page):
                             if url not in self.urls:
                                 self.links += 1
-                                queue.put(url)
+                                queue.append(url)
                                 self.urls.append(url)
 
                         if n > self.depth and self.depth > 0:
