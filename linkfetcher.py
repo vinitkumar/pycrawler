@@ -1,24 +1,22 @@
-#!/usr/bin/python
+#! /usr/bin/python
 """Linkfetcher Class."""
-import sys
-import asyncio
 import urllib.request
 import urllib.parse
-import six
-import logging
-from bs4 import BeautifulSoup
 from html import escape
+import logging
+import six
+from bs4 import BeautifulSoup
 from tqdm import tqdm
 
-logger = logging.getLogger()
-handler = logging.StreamHandler()
-formatter = logging.Formatter("%(name)-12s %(levelname)-8s %(message)s")
-handler.setFormatter(formatter)
-logger.addHandler(handler)
-logger.setLevel(logging.DEBUG)
+LOGGER = logging.getLogger()
+HANDLER = logging.StreamHandler()
+FORMATTER = logging.Formatter("%(name)-12s %(levelname)-8s %(message)s")
+HANDLER.setFormatter(FORMATTER)
+LOGGER.addHandler(HANDLER)
+LOGGER.setLevel(logging.DEBUG)
 
 
-class Linkfetcher(object):
+class Linkfetcher:
     """Link Fetcher class to abstract the link fetching."""
 
     def __init__(self, url):
@@ -56,7 +54,7 @@ class Linkfetcher(object):
             )
             soup = BeautifulSoup(content, "html.parser")
             tags = soup("a")
-            for tag in tqdm(tags):
+            for tag in tqdm(tags, smoothing=True):
                 href = tag.get("href")
                 if href is not None:
                     url = urllib.parse.urljoin(self.url, escape(href))
@@ -65,12 +63,12 @@ class Linkfetcher(object):
 
         except urllib.request.HTTPError as error:
             if error.code == 404:
-                logger.warning("ERROR: %s -> %s for %s" % (error, error.url, self.url))
+                LOGGER.warning(f"ERROR: {error} -> {error.url} for {self.url}")
             else:
-                logger.warning("ERROR: %s for %s" % (error, self.url))
+                LOGGER.warning(f"ERROR: {error} for {self.url}")
 
         except urllib.request.URLError as error:
-            logger.warning("ERROR: %s for %s" % (error, self.url))
+            LOGGER.warning(f"ERROR: {error} for {self.url}")
             raise urllib.request.URLError("URL entered is Incorrect")
 
     def linkfetch(self):

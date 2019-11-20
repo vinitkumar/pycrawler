@@ -1,4 +1,7 @@
-#!/usr/bin/python
+"""
+Main Entry Point for the crawler
+"""
+#! /usr/bin/python
 import asyncio
 import time
 import optparse
@@ -6,12 +9,12 @@ import logging
 from linkfetcher import Linkfetcher
 from webcrawler import Webcrawler
 
-logger = logging.getLogger()
-handler = logging.StreamHandler()
-formatter = logging.Formatter("%(name)-12s %(levelname)-8s %(message)s")
-handler.setFormatter(formatter)
-logger.addHandler(handler)
-logger.setLevel(logging.INFO)
+LOGGER = logging.getLogger()
+HANDLER = logging.StreamHandler()
+FORMATTER = logging.Formatter("%(name)-12s %(levelname)-8s %(message)s")
+HANDLER.setFormatter(FORMATTER)
+LOGGER.addHandler(HANDLER)
+LOGGER.setLevel(logging.INFO)
 
 
 def option_parser():
@@ -56,8 +59,8 @@ async def getlinks(url):
     """Get Links from the Linkfetcher class."""
     page = Linkfetcher(url)
     await page.linkfetch()
-    for i, url in enumerate(page):
-        return (i, url)
+    for i, url_link in enumerate(page):
+        return (i, url_link)
 
 
 async def main():
@@ -66,28 +69,27 @@ async def main():
     url = args[0]
 
     if opts.links:
-        getlinks(url)
+        await getlinks(url)
         raise SystemExit(0)
 
     depth = opts.depth
 
-    sTime = time.time()
+    s_time = time.time()
     webcrawler = Webcrawler(url, depth)
     webcrawler.crawl()
-    eTime = time.time()
-    tTime = eTime - sTime
+    e_time = time.time()
+    t_time = e_time - s_time
     print("CRAWLER STARTED:")
     print("%s, will crawl upto depth %d" % (url, depth))
-    print("*****RESULTS")
     print("\n".join(webcrawler.urls))
     print("=" * 100)
     print("Crawler Statistics")
     print("=" * 100)
     print("No of links Found: %d" % webcrawler.links)
     print("No of followed:     %d" % webcrawler.followed)
-    print("Time Stats : Found all links  after %0.2fs" % tTime)
+    print("Found all links after %0.2fs" % t_time)
 
 
 if __name__ == "__main__":
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(main())
+    LOOP = asyncio.get_event_loop()
+    LOOP.run_until_complete(main())

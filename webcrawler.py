@@ -2,13 +2,11 @@
 import re
 from traceback import format_exc
 import urllib.parse
-from linkfetcher import Linkfetcher
-from six.moves.queue import Queue, Empty as QueueEmpty
 from collections import deque
+from linkfetcher import Linkfetcher
 
 
-class Webcrawler(object):
-
+class Webcrawler:
     """Webcrawler class that contains the crawling logic."""
 
     def __init__(self, root, depth, locked=True):
@@ -29,7 +27,6 @@ class Webcrawler(object):
         for url in page.urls:
             queue.append(url)
         followed = [self.root]
-
         n = 0
 
         while True:
@@ -50,7 +47,7 @@ class Webcrawler(object):
                         self.followed += 1
                         page = Linkfetcher(url)
                         page.linkfetch()
-                        for i, url in enumerate(page):
+                        for url in page:
                             if url not in self.urls:
                                 self.links += 1
                                 queue.append(url)
@@ -59,5 +56,6 @@ class Webcrawler(object):
                         if n > self.depth and self.depth > 0:
                             break
                 except Exception as e:
-                    print("ERROR: The URL '%s' can't be crawled (%s)" % (url, e))
+                    print("Exception")
+                    print(f"ERROR: The URL {url} can't be crawled {e}")
                     print(format_exc())
