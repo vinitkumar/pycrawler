@@ -57,7 +57,7 @@ Found all links after 0.54s
 
 ## Issues
 
-Create an issue in case you found a bug
+Create an issue here if you encounter a bug: [create-issue](https://github.com/vinitkumar/pycrawler/issues/new/choose)
 
 
 
