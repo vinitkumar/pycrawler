@@ -3,7 +3,6 @@
 import urllib.request
 import urllib.parse
 from html import escape
-import logging
 import six
 from bs4 import BeautifulSoup
 from tqdm import tqdm
@@ -63,7 +62,7 @@ class Linkfetcher:
                 LOGGER.warning(f"{error} for {error.url}")
 
         except urllib.request.URLError as error:
-            LOGGER.fatal(f"{error} for {error.url}")
+            LOGGER.fatal(f"{error} for {self.url}")
             raise urllib.request.URLError("URL entered is Incorrect")
 
     def linkfetch(self):
