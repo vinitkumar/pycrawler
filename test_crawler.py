@@ -1,5 +1,5 @@
 import unittest
-from webcrawler import Webcrawler
+from src.webcrawler import Webcrawler
 
 class TestCrawler(unittest.TestCase):
     def test_crawler(self):
@@ -7,7 +7,7 @@ class TestCrawler(unittest.TestCase):
         depth = 2
         crawler = Webcrawler(url, depth)
         crawler.crawl()
-        assert(len(crawler.urls) > 0)
+        self.assertTrue(len(crawler.urls) > 0, True)
 
 if __name__ == '__main__':
     unittest.main()

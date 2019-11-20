@@ -3,61 +3,56 @@
 [![Build Status](https://travis-ci.org/vinitkumar/pycrawler.svg?branch=master)](https://travis-ci.org/vinitkumar/pycrawler)
 [![Coverage Status](https://coveralls.io/repos/github/vinitkumar/pycrawler/badge.svg?branch=feature%2Fadd-coverage-coveralls)](https://coveralls.io/github/vinitkumar/pycrawler?branch=feature%2Fadd-coverage-coveralls)
 
-A simple crawler written in Python (only works on 3.5+).
+Python Crawler written Python 3. (Supports major Python releases Python3.6, Python3.7 and Python 3.8)
 
 ## Installation and Use
 
 ### Setup VirtualEnv
 
 ```sh
-which python3.5 # this will output the path of your python3.5
+which python3 this will output the path of your python3
 #now setup a python3 virtualenv
-mkvirtualenv crawl3 -p /Library/Frameworks/Python.framework/Versions/3.5/bin/python3.5
+mkvirtualenv crawl3 -p $(which python3)
 ```
 
 
 ```sh
-$ pip3 install pycrawler
-$ python crawler.py -d5 http://gotchacode.com // -d5 means crawl to the depth of 5.
+workon crawler
+python main.py -d5 http://gotchacode.com // -d5 means crawl to the depth of 5.
 ```
 
 ## Results:
 
-The Library is now ported to Python3, The results also showcase the difference in speed.
 
+And the output is:
 
-Results for latest python3 compatible library:
 
 ```sh
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 50/50 [00:00<00:00, 29200.11it/s]
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 9/9 [00:00<00:00, 22563.50it/s]
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 9/9 [00:00<00:00, 21375.28it/s]
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [00:00<00:00, 22227.37it/s]
 CRAWLER STARTED:
-http://gotchacode.com, will crawl upto depth 5
-===============================================================
-http://gotchacode.com/
-http://gotchacode.com/about
-http://github.com/vinitkumar
-http://vinitkumar.me
-http://www.changer.nl
-https://gratipay.com/vinitkme/
-http://gotchacode.com/2014/06/12/On-Using-What-You-Already-Have.html
-http://gotchacode.com/2014/05/01/the-pragmatic-programmer-checklist.html
-http://gotchacode.com/2014/02/26/simple-state-machine-framework-in-c-number.html
-http://gotchacode.com/2014/02/15/setup-a-local-gitignore-without-messing-up-project.html
-http://gotchacode.com/2014/02/14/how-to-use-facebook-page-albums-as-image-source-in-django.html
-http://gotchacode.com/2014/02/13/migrating-to-octopress.html
-http://gotchacode.com/2014/01/music-movies-and-life.html
-http://gotchacode.com/2014/01/happy-new-year-2014.html
-http://gotchacode.com/page2
+https://vinitkumar.me, will crawl upto depth 2
+https://vinitkumar.me/
+http://changer.nl
 https://twitter.com/vinitkme
-https://twitter.com/share
-http://disqus.com/?ref_noscript
-http://disqus.com
-
-
+https://vinitkumar.me/about
+https://vinitkumar.github.io/vinit_kumar.pdf
+https://vinitkumar.me/values
+https://github.com/vinitkumar
+https://vinitkumar.me/2013-03-24-life-has-changed/
+https://vinitkumar.me/2013-03-24-my-javascript-love/
+https://vinitkumar.me/2013-03-27-twitter-like-app-in-nodejs/
+http://twitter.com/vinitkme
+https://vinitkumar.me/2013-04-07-first-flight-and-vacation-after-months/
+====================================================================================================
 Crawler Statistics
-==================
-No of links Found: 19
-No of follwed:     3
-Time Stats : Found all links  after 2.52s
+====================================================================================================
+No of links Found: 12
+No of followed:     3
+Found all links after 0.54s
+
 ```
 
 ## Issues
