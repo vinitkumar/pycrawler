@@ -7,14 +7,7 @@ import logging
 import six
 from bs4 import BeautifulSoup
 from tqdm import tqdm
-
-LOGGER = logging.getLogger()
-HANDLER = logging.StreamHandler()
-FORMATTER = logging.Formatter("%(levelname)-8s %(message)s")
-HANDLER.setFormatter(FORMATTER)
-LOGGER.addHandler(HANDLER)
-LOGGER.setLevel(logging.DEBUG)
-
+from src import LOGGER, __version__
 
 class Linkfetcher:
     """Link Fetcher class to abstract the link fetching."""
@@ -23,7 +16,7 @@ class Linkfetcher:
         self.url = url
         self.urls = []
         self.broken_urls = []
-        self.__version__ = "2.0.0"
+        self.__version__ = __version__
         self.agent = "%s/%s" % (__name__, self.__version__)
 
     def _add_headers(self, request):

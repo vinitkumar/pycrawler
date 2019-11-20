@@ -6,15 +6,9 @@ import asyncio
 import time
 import optparse
 import logging
-from linkfetcher import Linkfetcher
-from webcrawler import Webcrawler
-
-LOGGER = logging.getLogger()
-HANDLER = logging.StreamHandler()
-FORMATTER = logging.Formatter("%(levelname)-8s %(message)s")
-HANDLER.setFormatter(FORMATTER)
-LOGGER.addHandler(HANDLER)
-LOGGER.setLevel(logging.INFO)
+from src.linkfetcher import Linkfetcher
+from src.webcrawler import Webcrawler
+from src import __version__, LOGGER
 
 
 def option_parser():
@@ -24,7 +18,7 @@ def option_parser():
                 Here in this case it goes till depth of 5 and url is target URL to
                 start crawling.
             """
-    version = "2.0.0"
+    version = __version__
 
     parser = optparse.OptionParser(usage=usage, version=version)
 
@@ -48,7 +42,7 @@ def option_parser():
     )
     opts, args = parser.parse_args()
 
-    if len(args) < 1:
+    if not args:
         parser.print_help()
         raise SystemExit(1)
 

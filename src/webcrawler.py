@@ -3,7 +3,8 @@ import re
 from traceback import format_exc
 import urllib.parse
 from collections import deque
-from linkfetcher import Linkfetcher
+from src import LOGGER
+from src.linkfetcher import Linkfetcher
 
 
 class Webcrawler:
@@ -56,4 +57,4 @@ class Webcrawler:
             except IndexError:
                 break
 
-            
+
