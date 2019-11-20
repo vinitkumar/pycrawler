@@ -11,7 +11,7 @@ from webcrawler import Webcrawler
 
 LOGGER = logging.getLogger()
 HANDLER = logging.StreamHandler()
-FORMATTER = logging.Formatter("%(name)-12s %(levelname)-8s %(message)s")
+FORMATTER = logging.Formatter("%(levelname)-8s %(message)s")
 HANDLER.setFormatter(FORMATTER)
 LOGGER.addHandler(HANDLER)
 LOGGER.setLevel(logging.INFO)

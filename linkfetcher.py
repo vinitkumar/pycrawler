@@ -10,7 +10,7 @@ from tqdm import tqdm
 
 LOGGER = logging.getLogger()
 HANDLER = logging.StreamHandler()
-FORMATTER = logging.Formatter("%(name)-12s %(levelname)-8s %(message)s")
+FORMATTER = logging.Formatter("%(levelname)-8s %(message)s")
 HANDLER.setFormatter(FORMATTER)
 LOGGER.addHandler(HANDLER)
 LOGGER.setLevel(logging.DEBUG)
@@ -22,6 +22,7 @@ class Linkfetcher:
     def __init__(self, url):
         self.url = url
         self.urls = []
+        self.broken_urls = []
         self.__version__ = "2.0.0"
         self.agent = "%s/%s" % (__name__, self.__version__)
 
@@ -62,13 +63,14 @@ class Linkfetcher:
                         self.urls.append(url)
 
         except urllib.request.HTTPError as error:
+            self.broken_urls.append(error.url)
             if error.code == 404:
-                LOGGER.warning(f"ERROR: {error} -> {error.url} for {self.url}")
+                LOGGER.warning(f"{error} -> {error.url}")
             else:
-                LOGGER.warning(f"ERROR: {error} for {self.url}")
+                LOGGER.warning(f"{error} for {error.url}")
 
         except urllib.request.URLError as error:
-            LOGGER.warning(f"ERROR: {error} for {self.url}")
+            LOGGER.fatal(f"{error} for {error.url}")
             raise urllib.request.URLError("URL entered is Incorrect")
 
     def linkfetch(self):

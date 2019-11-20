@@ -32,30 +32,28 @@ class Webcrawler:
         while True:
             try:
                 url = queue.pop()
+                n += 1
+                if url not in followed:
+                    try:
+                        host = urllib.parse.urlparse(url)[1]
+                        if self.locked and re.match(".*%s" % self.host, host):
+                            followed.append(url)
+                            self.followed += 1
+                            page = Linkfetcher(url)
+                            page.linkfetch()
+                            # import ipdb; ipdb.set_trace()
+                            for url in page:
+                                if url not in self.urls:
+                                    self.links += 1
+                                    queue.append(url)
+                                    self.urls.append(url)
+                            if n > self.depth and self.depth > 0:
+                                break
+                    except Exception as e:
+                        print("Exception")
+                        print(f"ERROR: The URL {url} can't be crawled {e}")
+                        print(format_exc())
             except IndexError:
                 break
 
-            n += 1
-
-            if url not in followed:
-                try:
-
-                    host = urllib.parse.urlparse(url)[1]
-
-                    if self.locked and re.match(".*%s" % self.host, host):
-                        followed.append(url)
-                        self.followed += 1
-                        page = Linkfetcher(url)
-                        page.linkfetch()
-                        for url in page:
-                            if url not in self.urls:
-                                self.links += 1
-                                queue.append(url)
-                                self.urls.append(url)
-
-                        if n > self.depth and self.depth > 0:
-                            break
-                except Exception as e:
-                    print("Exception")
-                    print(f"ERROR: The URL {url} can't be crawled {e}")
-                    print(format_exc())
+            
