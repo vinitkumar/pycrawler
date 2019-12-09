@@ -3,6 +3,7 @@
 import urllib.request
 import urllib.parse
 from html import escape
+from typing import List
 import six
 from bs4 import BeautifulSoup
 from tqdm import tqdm
@@ -12,11 +13,11 @@ class Linkfetcher:
     """Link Fetcher class to abstract the link fetching."""
 
     def __init__(self, url):
-        self.url = url
-        self.urls = []
-        self.broken_urls = []
-        self.__version__ = __version__
-        self.agent = "%s/%s" % (__name__, self.__version__)
+        self.url: str = url
+        self.urls: List[str] = []
+        self.broken_urls: List[str] = []
+        self.__version__: str = __version__
+        self.agent: str = "%s/%s" % (__name__, self.__version__)
 
     def _add_headers(self, request):
         """Add User Agent headers for the request"""

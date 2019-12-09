@@ -3,20 +3,21 @@ import re
 from traceback import format_exc
 import urllib.parse
 from collections import deque
+from typing import List
 from src.linkfetcher import Linkfetcher
 
 
 class Webcrawler:
     """Webcrawler class that contains the crawling logic."""
 
-    def __init__(self, root, depth, locked=True):
+    def __init__(self, root: str, depth: int, locked: bool = True):
         """ initialize variables."""
-        self.root = root
-        self.depth = depth
-        self.locked = locked
-        self.links = 0
-        self.followed = 0
-        self.urls = []
+        self.root: str = root
+        self.depth: int = depth
+        self.locked: bool = locked
+        self.links: int = 0
+        self.followed: int = 0
+        self.urls: List[str] = []
         self.host = urllib.parse.urlparse(root)[1]
 
     def crawl(self):
