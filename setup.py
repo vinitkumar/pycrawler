@@ -21,6 +21,5 @@ setup(
         'six==1.9.0',
         'tqdm==4.38.0',
         'pytest-cov==2.2.1',
-        'python-coveralls==2.7.0',
     ],
 )
