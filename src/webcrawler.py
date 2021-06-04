@@ -12,7 +12,7 @@ class Webcrawler:
     """Webcrawler class that contains the crawling logic."""
 
     def __init__(self, root: str, depth: int, locked: bool = True):
-        """ initialize variables."""
+        """initialize variables."""
         self.root: str = root
         self.depth: int = depth
         self.locked: bool = locked

@@ -70,7 +70,7 @@ class Linkfetcher:
             raise urllib.request.URLError("URL entered is Incorrect")
 
     def linkfetch(self):
-        """"
+        """
         Public method to call the internal methods
         """
         request, handle = self.open()
