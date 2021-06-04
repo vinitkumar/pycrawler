@@ -1,13 +1,16 @@
 #! /usr/bin/python
 """Linkfetcher Class."""
-import urllib.request
 import urllib.parse
+import urllib.request
 from html import escape
 from typing import List
+
 import six
 from bs4 import BeautifulSoup
 from tqdm import tqdm
+
 from src import LOGGER, __version__
+
 
 class Linkfetcher:
     """Link Fetcher class to abstract the link fetching."""

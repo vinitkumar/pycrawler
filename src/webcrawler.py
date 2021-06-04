@@ -1,9 +1,10 @@
 """ Webcrawler module."""
 import re
-from traceback import format_exc
 import urllib.parse
 from collections import deque
+from traceback import format_exc
 from typing import List
+
 from src.linkfetcher import Linkfetcher
 
 
