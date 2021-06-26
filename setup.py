@@ -2,7 +2,7 @@
 from __future__ import absolute_import
 from setuptools import setup, find_packages
 
-version = '2.1.0'
+version = '3.0.0'
 
 setup(
     name='pycrawler',

@@ -5,6 +5,7 @@ import urllib.request
 from html import escape
 from typing import List, Tuple, Any
 from urllib.request import Request, build_opener, OpenerDirector
+from urllib.error import URLError, HTTPError
 
 import six
 from bs4 import BeautifulSoup
@@ -43,10 +44,14 @@ class Linkfetcher:
         handle = build_opener()
         return (request, handle)
 
-    def _get_crawled_urls(self, handle, request):
+    def _get_crawled_urls(self, handle: OpenerDirector, request: Request) -> None:
         """
         Main method where the crawler html content is parsed with
         beautiful soup and out of the DOM, we get the urls
+        # NOTE:
+        last remaining typing error using mypy
+        src/webcrawler.py:47: error: "Linkfetcher" has no attribute "__iter__" (not iterable)
+        It's an existing issue
         """
         try:
             content = six.text_type(
@@ -58,21 +63,21 @@ class Linkfetcher:
                 href = tag.get("href")
                 if href is not None:
                     url = urllib.parse.urljoin(self.url, escape(href))
-                    if url not in self:
+                    if url not in self.urls:
                         self.urls.append(url)
 
-        except urllib.request.HTTPError as error:
+        except HTTPError as error:
             self.broken_urls.append(error.url)
             if error.code == 404:
                 LOGGER.warning(f"{error} -> {error.url}")
             else:
                 LOGGER.warning(f"{error} for {error.url}")
 
-        except urllib.request.URLError as error:
+        except URLError as error:
             LOGGER.fatal(f"{error} for {self.url}")
-            raise urllib.request.URLError("URL entered is Incorrect")
+            raise URLError("URL entered is Incorrect")
 
-    def linkfetch(self):
+    def linkfetch(self) -> None:
         """
         Public method to call the internal methods
         """
