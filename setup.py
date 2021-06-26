@@ -2,7 +2,7 @@
 from __future__ import absolute_import
 from setuptools import setup, find_packages
 
-version = '2.1.0'
+version = '3.0.0'
 
 setup(
     name='pycrawler',
@@ -15,11 +15,11 @@ setup(
     zip_safe=False,
     include_package_data=True,
     install_requires=[
-        'beautifulsoup4==4.8.1',
+        'beautifulsoup4==4.9.3',
         'future==0.14.3',
         'pytest==2.9.2',
         'six==1.9.0',
+        'rich==10.3.0',
         'tqdm==4.38.0',
-        'pytest-cov==2.2.1',
     ],
 )

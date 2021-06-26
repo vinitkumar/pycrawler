@@ -1,17 +1,18 @@
 """ Webcrawler module."""
 import re
-from traceback import format_exc
 import urllib.parse
 from collections import deque
+from traceback import format_exc
 from typing import List
+
 from src.linkfetcher import Linkfetcher
 
 
 class Webcrawler:
     """Webcrawler class that contains the crawling logic."""
 
-    def __init__(self, root: str, depth: int, locked: bool = True):
-        """ initialize variables."""
+    def __init__(self, root: str, depth: int, locked: bool = True) -> None:
+        """initialize variables."""
         self.root: str = root
         self.depth: int = depth
         self.locked: bool = locked
@@ -20,11 +21,11 @@ class Webcrawler:
         self.urls: List[str] = []
         self.host = urllib.parse.urlparse(root)[1]
 
-    def crawl(self):
+    def crawl(self) -> None:
         """crawl function to return list of crawled urls."""
         page = Linkfetcher(self.root)
         page.linkfetch()
-        queue = deque()
+        queue: deque[str] = deque()
         for url in page.urls:
             queue.append(url)
         followed = [self.root]
