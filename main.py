@@ -6,9 +6,25 @@ import asyncio
 import time
 import optparse
 import logging
+from functools import wraps
 from src.linkfetcher import Linkfetcher
 from src.webcrawler import Webcrawler
 from src import __version__, LOGGER
+
+def timethis(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start = time.perf_counter()
+        r = func(*args, **kwargs)
+        end = time.perf_counter()
+        print("*" * 100)
+        print(f"Execution took: {end - start}s")
+        print("*" * 100)
+        return r
+
+    return wrapper
+
+
 
 
 def option_parser():
@@ -57,6 +73,15 @@ async def getlinks(url):
         return (i, url_link)
 
 
+@timethis
+def crawl(url, depth):
+    webcrawler = Webcrawler(url, depth)
+    webcrawler.crawl()
+    return webcrawler
+
+
+
+
 async def main():
     """ Main class."""
     opts, args = option_parser()
@@ -68,11 +93,7 @@ async def main():
 
     depth = opts.depth
 
-    s_time = time.time()
-    webcrawler = Webcrawler(url, depth)
-    webcrawler.crawl()
-    e_time = time.time()
-    t_time = e_time - s_time
+    webcrawler = crawl(url, depth)
     print("CRAWLER STARTED:")
     print("%s, will crawl upto depth %d" % (url, depth))
     print("\n".join(webcrawler.urls))
@@ -81,7 +102,6 @@ async def main():
     print("=" * 100)
     print("No of links Found: %d" % webcrawler.links)
     print("No of followed:     %d" % webcrawler.followed)
-    print("Found all links after %0.2fs" % t_time)
 
 
 if __name__ == "__main__":
