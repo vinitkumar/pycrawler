@@ -3,7 +3,7 @@
 import urllib.parse
 import urllib.request
 from html import escape
-from typing import List, Tuple, Any
+from typing import List, Tuple
 from urllib.request import Request, build_opener, OpenerDirector
 from urllib.error import URLError, HTTPError
 
@@ -28,15 +28,15 @@ class Linkfetcher:
         """Add User Agent headers for the request"""
         request.add_header("User-Agent", self.agent)
 
-    def __getitem__(self, x: int) -> str :
+    def __getitem__(self, x: int) -> str:
         """Get item."""
         return self.urls[x]
 
     def open(self) -> Tuple[Request, OpenerDirector]:
         """
-            Open the URL with urllib.request.
+        Open the URL with urllib.request.
 
-            Don't know how to deal with build_opener type here
+        Don't know how to deal with build_opener type here
         """
 
         url = self.url
