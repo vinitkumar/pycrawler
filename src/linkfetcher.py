@@ -3,7 +3,7 @@
 import urllib.parse
 import urllib.request
 from html import escape
-from typing import List, Tuple
+from typing import Iterable, List, Tuple
 from urllib.request import Request, build_opener, OpenerDirector
 from urllib.error import URLError, HTTPError
 
@@ -31,6 +31,13 @@ class Linkfetcher:
     def __getitem__(self, x: int) -> str:
         """Get item."""
         return self.urls[x]
+
+    def __len__(self) -> int:
+        return len(self.urls)
+
+    def __iter__(self) -> Iterable[str]:
+        for i in range(len(self.urls)):
+            yield self.urls[i]
 
     def open(self) -> Tuple[Request, OpenerDirector]:
         """
