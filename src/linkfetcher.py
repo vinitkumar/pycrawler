@@ -3,11 +3,10 @@
 import urllib.parse
 import urllib.request
 from html import escape
-from typing import Iterable, List, Tuple
+from typing import Iterable
 from urllib.request import Request, build_opener, OpenerDirector
 from urllib.error import URLError, HTTPError
 
-import six
 from bs4 import BeautifulSoup
 from rich.progress import track
 
@@ -57,7 +56,8 @@ class Linkfetcher:
         beautiful soup and out of the DOM, we get the urls
         # NOTE:
         last remaining typing error using mypy
-        src/webcrawler.py:47: error: "Linkfetcher" has no attribute "__iter__" (not iterable)
+        src/webcrawler.py:47:
+        error: "Linkfetcher" has no attribute "__iter__" (not iterable)
         It's an existing issue
         """
         try:

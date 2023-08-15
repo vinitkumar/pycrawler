@@ -3,7 +3,6 @@ import re
 import urllib.parse
 from collections import deque
 from traceback import format_exc
-from typing import List
 
 from src.linkfetcher import Linkfetcher
 
