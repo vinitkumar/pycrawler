@@ -18,7 +18,7 @@ class Webcrawler:
         self.locked: bool = locked
         self.links: int = 0
         self.followed: int = 0
-        self.urls: List[str] = []
+        self.urls: list[str] = []
         self.host = urllib.parse.urlparse(root)[1]
 
     def crawl(self) -> None:

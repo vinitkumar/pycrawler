@@ -19,10 +19,10 @@ class Linkfetcher:
 
     def __init__(self, url: str) -> None:
         self.url: str = url
-        self.urls: List[str] = []
-        self.broken_urls: List[str] = []
+        self.urls: list[str] = []
+        self.broken_urls: list[str] = []
         self.__version__: str = __version__
-        self.agent: str = "%s/%s" % (__name__, self.__version__)
+        self.agent: str = f"{__name__}/{self.__version__}"
 
     def _add_headers(self, request: Request) -> None:
         """Add User Agent headers for the request"""
@@ -39,7 +39,7 @@ class Linkfetcher:
         for i in range(len(self.urls)):
             yield self.urls[i]
 
-    def open(self) -> Tuple[Request, OpenerDirector]:
+    def open(self) -> tuple[Request, OpenerDirector]:
         """
         Open the URL with urllib.request.
 
@@ -61,7 +61,7 @@ class Linkfetcher:
         It's an existing issue
         """
         try:
-            content = six.text_type(
+            content = str(
                 handle.open(request).read(), "utf-8", errors="replace"
             )
             soup = BeautifulSoup(content, "html.parser")
