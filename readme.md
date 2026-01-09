@@ -1,10 +1,9 @@
-# pycrawler
+# Description
+
+[![Build Status](https://travis-ci.org/vinitkumar/pycrawler.svg?branch=master)](https://travis-ci.org/vinitkumar/pycrawler)
+[![Coverage Status](https://coveralls.io/repos/github/vinitkumar/pycrawler/badge.svg?branch=feature%2Fadd-coverage-coveralls)](https://coveralls.io/github/vinitkumar/pycrawler?branch=feature%2Fadd-coverage-coveralls)
 
 A simple Python web crawler written for Python 3.14+ (supports CPython and PyPy).
-
-[![Ruff](https://img.shields.io/badge/linter-ruff-blue)](https://github.com/astral-sh/ruff)
-[![ty](https://img.shields.io/badge/type%20checker-ty-blue)](https://github.com/astral-sh/ty)
-[![Python 3.14+](https://img.shields.io/badge/python-3.14%2B-blue)](https://www.python.org/)
 
 ## Installation
 
