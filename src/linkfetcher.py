@@ -67,7 +67,7 @@ class Linkfetcher:
             tags = soup("a")
             for tag in track(tags):
                 href = tag.get("href")
-                if href is not None:
+                if isinstance(href, str):
                     url = urllib.parse.urljoin(self.url, escape(href))
                     if url not in self.urls:
                         self.urls.append(url)
