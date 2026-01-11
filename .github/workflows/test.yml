@@ -18,15 +18,9 @@ jobs:
         include:
           # Free-threaded Python (GIL disabled) - test on all platforms
           - os: ubuntu-latest
-            python-version: '3.13t'
-          - os: ubuntu-latest
             python-version: '3.14t'
           - os: macos-latest
-            python-version: '3.13t'
-          - os: macos-latest
             python-version: '3.14t'
-          - os: windows-latest
-            python-version: '3.13t'
           - os: windows-latest
             python-version: '3.14t'
 
