@@ -259,9 +259,9 @@ class Webcrawler:
                         except Exception as e:
                             print(f"ERROR processing {source_url}: {e}")
 
-                # Brief pause to prevent busy-waiting
-                if not done_futures and pending_futures:
-                    threading.Event().wait(0.01)
+                    # Brief pause to prevent busy-waiting
+                    if not done_futures:
+                        threading.Event().wait(0.01)
 
     @staticmethod
     def is_free_threaded() -> bool:
