@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import threading
 import time
-from concurrent.futures import ThreadPoolExecutor
 
 import pytest
 
