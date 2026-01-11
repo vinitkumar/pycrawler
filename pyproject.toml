@@ -9,7 +9,8 @@ description = "A simple python crawler"
 readme = "readme.md"
 license = {text = "MIT"}
 authors = [
-    {name = "Vinit Kumar", email = "vinit.kumar@changer.nl"}
+    {name = "Vinit Kumar", email = "vinit.kumar@changer.nl"},
+    {name = "Rushi Balapure", email = "rishibalapure12@gmail.com"}
 ]
 requires-python = ">=3.14"
 classifiers = [
@@ -19,12 +20,11 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.14",
     "Programming Language :: Python :: Implementation :: CPython",
-    "Programming Language :: Python :: Implementation :: PyPy",
     "Topic :: Internet :: WWW/HTTP :: Indexing/Search",
 ]
 dependencies = [
-    "beautifulsoup4>=4.12.0",
-    "rich>=13.0.0",
+    "beautifulsoup4>=4.14.3",
+    "rich>=14.2.0",
 ]
 
 [project.urls]
@@ -34,8 +34,8 @@ Issues = "https://github.com/vinitkumar/pycrawler/issues"
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=8.0.0",
-    "ruff>=0.9.0",
+    "pytest>=9.0.2",
+    "ruff>=0.14.11",
 ]
 
 [project.scripts]

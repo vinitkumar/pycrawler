@@ -92,7 +92,7 @@ def getlinks(url: str) -> list[tuple[int, str]]:
     """
     page = Linkfetcher(url)
     page.linkfetch()
-    return [(i, url_link) for i, url_link in enumerate(page)]
+    return [(index, url_link) for index, url_link in enumerate(page)]
 
 
 @timethis
@@ -118,8 +118,8 @@ def main() -> None:
 
     if args.links:
         links = getlinks(url)
-        for i, link in links:
-            LOGGER.info("Link %d: %s", i, link)
+        for index, link in links:
+            LOGGER.info("Link %d: %s", index, link)
         raise SystemExit(0)
 
     depth = args.depth
