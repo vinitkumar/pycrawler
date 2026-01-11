@@ -77,7 +77,7 @@ skip-magic-trailing-comma = false
 line-ending = "auto"
 
 [tool.ty.src]
-exclude = ["setup.py", "build/", "docs/"]
+exclude = ["setup.py", "build/", "docs/", "tests/"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
