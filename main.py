@@ -1,109 +1,155 @@
-"""
-Main Entry Point for the crawler
-"""
-#! /usr/bin/python
-import asyncio
-import time
-import optparse
-import logging
-from functools import wraps
-from src.linkfetcher import Linkfetcher
-from src.webcrawler import Webcrawler
-from src import __version__, LOGGER
+"""Main Entry Point for the crawler."""
 
-def timethis(func):
+from __future__ import annotations
+
+import argparse
+import time
+from functools import wraps
+from typing import TYPE_CHECKING
+
+from src import LOGGER, __version__
+from src.linkfetcher import USER_AGENTS, BrowserType, Linkfetcher
+from src.webcrawler import Webcrawler
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
+
+
+def timethis[**P, R](func: Callable[P, R]) -> Callable[P, R]:
+    """Decorator to measure execution time of a function."""
+
     @wraps(func)
-    def wrapper(*args, **kwargs):
+    def wrapper(*args: P.args, **kwargs: P.kwargs) -> R:
         start = time.perf_counter()
-        r = func(*args, **kwargs)
+        result = func(*args, **kwargs)
         end = time.perf_counter()
         print("*" * 100)
         print(f"Execution took: {end - start}s")
         print("*" * 100)
-        return r
+        return result
 
     return wrapper
 
 
+def parse_args() -> argparse.Namespace:
+    """Parse command line arguments.
 
+    Returns:
+        Parsed arguments namespace.
+    """
+    parser = argparse.ArgumentParser(
+        description="A simple Python web crawler",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+    %(prog)s -d5 http://example.com
+        Crawl example.com to a depth of 5
 
-def option_parser():
-    """Option Parser to give various options."""
-    usage = """
-             $ ./crawler -d5 <url>
-                Here in this case it goes till depth of 5 and url is target URL to
-                start crawling.
-            """
-    version = __version__
+    %(prog)s --links http://example.com
+        Only fetch links from the target URL
 
-    parser = optparse.OptionParser(usage=usage, version=version)
+    %(prog)s --browser firefox http://example.com
+        Crawl using Firefox User-Agent
+        """,
+    )
 
-    parser.add_option(
+    parser.add_argument(
+        "url",
+        help="Target URL to start crawling",
+    )
+
+    parser.add_argument(
         "-l",
         "--links",
         action="store_true",
         default=False,
-        dest="links",
-        help="links for target url",
+        help="Only fetch links for target URL (don't crawl)",
     )
 
-    parser.add_option(
+    parser.add_argument(
         "-d",
         "--depth",
-        action="store",
-        type="int",
+        type=int,
         default=30,
-        dest="depth",
-        help="Maximum depth traverse",
+        help="Maximum depth to traverse (default: 30)",
     )
-    opts, args = parser.parse_args()
 
-    if not args:
-        parser.print_help()
-        raise SystemExit(1)
+    parser.add_argument(
+        "-b",
+        "--browser",
+        type=str,
+        choices=list(USER_AGENTS.keys()),
+        default="chromium",
+        help="Browser User-Agent to use (default: chromium)",
+    )
 
-    return opts, args
+    parser.add_argument(
+        "-v",
+        "--version",
+        action="version",
+        version=f"%(prog)s {__version__}",
+    )
+
+    return parser.parse_args()
 
 
-async def getlinks(url):
-    """Get Links from the Linkfetcher class."""
-    page = Linkfetcher(url)
-    await page.linkfetch()
-    for i, url_link in enumerate(page):
-        return (i, url_link)
+def getlinks(url: str, browser: BrowserType = "chromium") -> list[tuple[int, str]]:
+    """Get links from the Linkfetcher class.
+
+    Args:
+        url: The URL to fetch links from.
+        browser: Browser User-Agent to use.
+
+    Returns:
+        A list of tuples containing (index, url).
+    """
+    page = Linkfetcher(url, browser=browser)
+    page.linkfetch()
+    return [(index, url_link) for index, url_link in enumerate(page)]
 
 
 @timethis
-def crawl(url, depth):
-    webcrawler = Webcrawler(url, depth)
+def crawl(url: str, depth: int, browser: BrowserType = "chromium") -> Webcrawler:
+    """Crawl the given URL to the specified depth.
+
+    Args:
+        url: The starting URL.
+        depth: Maximum crawl depth.
+        browser: Browser User-Agent to use.
+
+    Returns:
+        The Webcrawler instance with results.
+    """
+    webcrawler = Webcrawler(url, depth, browser=browser)
     webcrawler.crawl()
     return webcrawler
 
 
+def main() -> None:
+    """Main entry point for the crawler."""
+    args = parse_args()
+    url = args.url
+    browser: BrowserType = args.browser
 
-
-async def main():
-    """ Main class."""
-    opts, args = option_parser()
-    url = args[0]
-
-    if opts.links:
-        await getlinks(url)
+    if args.links:
+        links = getlinks(url, browser=browser)
+        for index, link in links:
+            LOGGER.info("Link %d: %s", index, link)
         raise SystemExit(0)
 
-    depth = opts.depth
+    depth = args.depth
 
-    webcrawler = crawl(url, depth)
+    webcrawler = crawl(url, depth, browser=browser)
     print("CRAWLER STARTED:")
-    print("%s, will crawl upto depth %d" % (url, depth))
+    print(f"{url}, will crawl upto depth {depth}")
+    print(f"Using {browser} User-Agent")
     print("\n".join(webcrawler.urls))
     print("=" * 100)
     print("Crawler Statistics")
     print("=" * 100)
-    print("No of links Found: %d" % webcrawler.links)
-    print("No of followed:     %d" % webcrawler.followed)
+    print(f"No of links Found: {webcrawler.links}")
+    print(f"No of followed:     {webcrawler.followed}")
 
 
 if __name__ == "__main__":
-    LOOP = asyncio.get_event_loop()
-    LOOP.run_until_complete(main())
+    main()

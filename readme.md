@@ -1,37 +1,50 @@
-## Description
+# Description
 
 [![Build Status](https://travis-ci.org/vinitkumar/pycrawler.svg?branch=master)](https://travis-ci.org/vinitkumar/pycrawler)
 [![Coverage Status](https://coveralls.io/repos/github/vinitkumar/pycrawler/badge.svg?branch=feature%2Fadd-coverage-coveralls)](https://coveralls.io/github/vinitkumar/pycrawler?branch=feature%2Fadd-coverage-coveralls)
 
-Python Crawler written Python 3. (Supports major Python releases Python3.6, Python3.7 and Python 3.8)
+A simple Python web crawler written for Python 3.14+ (supports CPython and PyPy).
 
-## Installation and Use
+## Installation
 
-### Setup VirtualEnv
+### Using uv (recommended)
 
 ```sh
-which python3 this will output the path of your python3
-#now setup a python3 virtualenv
-mkvirtualenv crawl3 -p $(which python3)
+uv venv
+uv pip install -e .
 ```
 
+### Using pip
 
 ```sh
-workon crawler
-python main.py -d5 http://gotchacode.com // -d5 means crawl to the depth of 5.
+python -m venv .venv
+source .venv/bin/activate
+pip install -e .
 ```
 
-## Results:
-
-
-And the output is:
-
+## Usage
 
 ```sh
-100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 50/50 [00:00<00:00, 29200.11it/s]
-100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 9/9 [00:00<00:00, 22563.50it/s]
-100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 9/9 [00:00<00:00, 21375.28it/s]
-100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 10/10 [00:00<00:00, 22227.37it/s]
+# Crawl a website to depth 5
+python main.py -d5 http://example.com
+
+# Only fetch links from target URL (no crawling)
+python main.py --links http://example.com
+
+# Show help
+python main.py --help
+
+# Show version
+python main.py --version
+```
+
+## Example Output
+
+```sh
+100%|████████████████████████████████████████████████████████| 50/50 [00:00<00:00, 29200.11it/s]
+100%|██████████████████████████████████████████████████████████| 9/9 [00:00<00:00, 22563.50it/s]
+100%|██████████████████████████████████████████████████████████| 9/9 [00:00<00:00, 21375.28it/s]
+100%|████████████████████████████████████████████████████████| 10/10 [00:00<00:00, 22227.37it/s]
 CRAWLER STARTED:
 https://vinitkumar.me, will crawl upto depth 2
 https://vinitkumar.me/
@@ -52,13 +65,46 @@ Crawler Statistics
 No of links Found: 12
 No of followed:     3
 Found all links after 0.54s
-
 ```
+
+## Development
+
+### Setup
+
+```sh
+uv venv
+uv pip install -e ".[dev]"
+```
+
+### Linting (Ruff)
+
+```sh
+uvx ruff check
+uvx ruff format
+```
+
+### Type Checking (ty)
+
+```sh
+uvx ty check
+```
+
+### Running Tests
+
+```sh
+python -m pytest test_crawler.py
+```
+
+## Requirements
+
+- Python 3.14+ (CPython or PyPy)
+- beautifulsoup4
+- rich
 
 ## Issues
 
 Create an issue here if you encounter a bug: [create-issue](https://github.com/vinitkumar/pycrawler/issues/new/choose)
 
+## License
 
-
-
+MIT License - see [LICENSE](LICENSE) for details.
