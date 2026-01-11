@@ -7,7 +7,7 @@ import time
 from functools import wraps
 from typing import TYPE_CHECKING
 
-from src import LOGGER, __version__
+from src import LOGGER, __version__, is_gil_disabled
 from src.linkfetcher import USER_AGENTS, BrowserType, Linkfetcher
 from src.webcrawler import Webcrawler
 
@@ -84,6 +84,22 @@ Examples:
     )
 
     parser.add_argument(
+        "-c",
+        "--concurrent",
+        action="store_true",
+        default=False,
+        help="Enable concurrent crawling with thread pool",
+    )
+
+    parser.add_argument(
+        "-w",
+        "--workers",
+        type=int,
+        default=None,
+        help="Number of worker threads for concurrent mode (auto-detected if not set)",
+    )
+
+    parser.add_argument(
         "-v",
         "--version",
         action="version",
@@ -109,18 +125,33 @@ def getlinks(url: str, browser: BrowserType = "chromium") -> list[tuple[int, str
 
 
 @timethis
-def crawl(url: str, depth: int, browser: BrowserType = "chromium") -> Webcrawler:
+def crawl(
+    url: str,
+    depth: int,
+    browser: BrowserType = "chromium",
+    *,
+    concurrent: bool = False,
+    max_workers: int | None = None,
+) -> Webcrawler:
     """Crawl the given URL to the specified depth.
 
     Args:
         url: The starting URL.
         depth: Maximum crawl depth.
         browser: Browser User-Agent to use.
+        concurrent: If True, use concurrent crawling with thread pool.
+        max_workers: Maximum number of worker threads for concurrent mode.
 
     Returns:
         The Webcrawler instance with results.
     """
-    webcrawler = Webcrawler(url, depth, browser=browser)
+    webcrawler = Webcrawler(
+        url,
+        depth,
+        browser=browser,
+        concurrent=concurrent,
+        max_workers=max_workers,
+    )
     webcrawler.crawl()
     return webcrawler
 
@@ -130,6 +161,14 @@ def main() -> None:
     args = parse_args()
     url = args.url
     browser: BrowserType = args.browser
+    concurrent = args.concurrent
+    workers = args.workers
+
+    # Show GIL status for debugging/info
+    if is_gil_disabled():
+        print("Running on free-threaded Python (GIL disabled)")
+    elif concurrent:
+        print("Running with GIL enabled (limited parallelism)")
 
     if args.links:
         links = getlinks(url, browser=browser)
@@ -139,10 +178,18 @@ def main() -> None:
 
     depth = args.depth
 
-    webcrawler = crawl(url, depth, browser=browser)
+    webcrawler = crawl(
+        url,
+        depth,
+        browser=browser,
+        concurrent=concurrent,
+        max_workers=workers,
+    )
     print("CRAWLER STARTED:")
     print(f"{url}, will crawl upto depth {depth}")
     print(f"Using {browser} User-Agent")
+    if concurrent:
+        print(f"Concurrent mode: enabled (workers: {workers or 'auto'})")
     print("\n".join(webcrawler.urls))
     print("=" * 100)
     print("Crawler Statistics")
