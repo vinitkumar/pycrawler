@@ -38,6 +38,8 @@ jobs:
         run: uv python install 3.14
       - name: Install dependencies
         run: |
+          uv venv
+          source .venv/bin/activate
           uv pip install -e . ty
       - name: Run ty
         run: |
