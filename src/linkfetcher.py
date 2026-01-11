@@ -1,6 +1,5 @@
 """Linkfetcher Class."""
 
-from __future__ import annotations
 
 import urllib.parse
 import urllib.request
