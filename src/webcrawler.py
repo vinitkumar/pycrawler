@@ -6,7 +6,7 @@ import re
 import threading
 import urllib.parse
 from collections import deque
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor
 from traceback import format_exc
 from typing import TYPE_CHECKING
 

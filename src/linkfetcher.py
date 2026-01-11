@@ -4,19 +4,17 @@
 import threading
 import urllib.parse
 import urllib.request
+from collections.abc import Iterator
 from html import escape
-from typing import TYPE_CHECKING, Literal
+from typing import Literal
 from urllib.error import HTTPError, URLError
 from urllib.request import OpenerDirector, Request, build_opener
 
 from bs4 import BeautifulSoup
-
-if TYPE_CHECKING:
-    from collections.abc import Iterator
 from rich.progress import track
 
 from src import LOGGER, __version__
-from src.threading_utils import ThreadSafeList, ThreadSafeSet
+from src.threading_utils import ThreadSafeList
 
 # Browser User-Agent strings (latest stable versions as of 2025)
 USER_AGENTS: dict[str, str] = {
