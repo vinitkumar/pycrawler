@@ -50,7 +50,14 @@ jobs:
 
       - name: Check GIL status
         run: |
-          uv run python -c "import sys; print(f'Python: {sys.version}'); print(f'GIL disabled: {not sys._is_gil_enabled() if hasattr(sys, \"_is_gil_enabled\") else False}')"
+          uv run python -c "
+          import sys
+          print(f'Python: {sys.version}')
+          if hasattr(sys, '_is_gil_enabled'):
+              print(f'GIL disabled: {not sys._is_gil_enabled()}')
+          else:
+              print('GIL status: N/A (Python < 3.13)')
+          "
 
       - name: Run tests
         run: |
