@@ -1,6 +1,5 @@
 """Webcrawler module."""
 
-from __future__ import annotations
 
 import re
 import urllib.parse
