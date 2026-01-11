@@ -8,7 +8,7 @@ from functools import wraps
 from typing import TYPE_CHECKING
 
 from src import LOGGER, __version__
-from src.linkfetcher import Linkfetcher
+from src.linkfetcher import USER_AGENTS, BrowserType, Linkfetcher
 from src.webcrawler import Webcrawler
 
 if TYPE_CHECKING:
@@ -47,6 +47,9 @@ Examples:
 
     %(prog)s --links http://example.com
         Only fetch links from the target URL
+
+    %(prog)s --browser firefox http://example.com
+        Crawl using Firefox User-Agent
         """,
     )
 
@@ -72,6 +75,15 @@ Examples:
     )
 
     parser.add_argument(
+        "-b",
+        "--browser",
+        type=str,
+        choices=list(USER_AGENTS.keys()),
+        default="chromium",
+        help="Browser User-Agent to use (default: chromium)",
+    )
+
+    parser.add_argument(
         "-v",
         "--version",
         action="version",
@@ -81,32 +93,34 @@ Examples:
     return parser.parse_args()
 
 
-def getlinks(url: str) -> list[tuple[int, str]]:
+def getlinks(url: str, browser: BrowserType = "chromium") -> list[tuple[int, str]]:
     """Get links from the Linkfetcher class.
 
     Args:
         url: The URL to fetch links from.
+        browser: Browser User-Agent to use.
 
     Returns:
         A list of tuples containing (index, url).
     """
-    page = Linkfetcher(url)
+    page = Linkfetcher(url, browser=browser)
     page.linkfetch()
     return [(index, url_link) for index, url_link in enumerate(page)]
 
 
 @timethis
-def crawl(url: str, depth: int) -> Webcrawler:
+def crawl(url: str, depth: int, browser: BrowserType = "chromium") -> Webcrawler:
     """Crawl the given URL to the specified depth.
 
     Args:
         url: The starting URL.
         depth: Maximum crawl depth.
+        browser: Browser User-Agent to use.
 
     Returns:
         The Webcrawler instance with results.
     """
-    webcrawler = Webcrawler(url, depth)
+    webcrawler = Webcrawler(url, depth, browser=browser)
     webcrawler.crawl()
     return webcrawler
 
@@ -115,18 +129,20 @@ def main() -> None:
     """Main entry point for the crawler."""
     args = parse_args()
     url = args.url
+    browser: BrowserType = args.browser
 
     if args.links:
-        links = getlinks(url)
+        links = getlinks(url, browser=browser)
         for index, link in links:
             LOGGER.info("Link %d: %s", index, link)
         raise SystemExit(0)
 
     depth = args.depth
 
-    webcrawler = crawl(url, depth)
+    webcrawler = crawl(url, depth, browser=browser)
     print("CRAWLER STARTED:")
     print(f"{url}, will crawl upto depth {depth}")
+    print(f"Using {browser} User-Agent")
     print("\n".join(webcrawler.urls))
     print("=" * 100)
     print("Crawler Statistics")
