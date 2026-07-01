@@ -150,7 +150,7 @@ def parallel_map[T, R](
     max_workers: int | None = None,
     *,
     timeout: float | None = None,
-) -> list[R]:
+) -> list[R | None]:
     """Execute a function in parallel over a list of items.
 
     This function takes advantage of free-threaded Python for true parallelism
@@ -164,6 +164,7 @@ def parallel_map[T, R](
 
     Returns:
         List of results in the same order as the input items.
+        Failed items are returned as None.
     """
     if not items:
         return []
@@ -175,14 +176,14 @@ def parallel_map[T, R](
         else:
             max_workers = min(32, len(items), (len(items) + 4))
 
-    results: list[R] = []
+    results: list[R | None] = []
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         futures: dict[Future[R], int] = {
             executor.submit(func, item): i for i, item in enumerate(items)
         }
 
         # Pre-allocate results list
-        results = [None] * len(items)  # type: ignore[list-item]
+        results = [None] * len(items)
 
         for future in as_completed(futures, timeout=timeout):
             idx = futures[future]
@@ -190,7 +191,7 @@ def parallel_map[T, R](
                 results[idx] = future.result()
             except Exception:
                 # Store None for failed operations
-                results[idx] = None  # type: ignore[assignment]
+                results[idx] = None
 
     return results
 

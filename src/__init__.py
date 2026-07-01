@@ -2,6 +2,8 @@
 
 import logging
 
+__lazy_modules__ = ["src.threading_utils"]
+
 from src.threading_utils import (
     ThreadSafeCounter,
     ThreadSafeList,
