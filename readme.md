@@ -150,6 +150,14 @@ if hasattr(sys, '_is_gil_enabled'):
 - **I/O-bound crawling**: Significant speedup with concurrent mode
 - **Optimal worker count**: Automatically calculated based on GIL status and CPU count
 
+## Benchmark TLDR
+
+`hyperfine` benchmarks against a real website show the supported runtimes are
+close for single-page link extraction. On `https://www.python.org`, Python
+3.15.0b3 was fastest at 172.7 ms mean, followed by Python 3.14t at 186.8 ms and
+Python 3.14.6 at 190.1 ms. See [benchmark.md](benchmark.md) for commands,
+environment details, and notes about live-site variance.
+
 ## Programmatic Usage
 
 ```python
