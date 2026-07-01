@@ -153,10 +153,10 @@ if hasattr(sys, '_is_gil_enabled'):
 ## Benchmark TLDR
 
 `hyperfine` benchmarks against a real website show the supported runtimes are
-close for single-page link extraction. On `https://www.python.org`, Python
-3.15.0b3 was fastest at 172.7 ms mean, followed by Python 3.14t at 186.8 ms and
-Python 3.14.6 at 190.1 ms. See [benchmark.md](benchmark.md) for commands,
-environment details, and notes about live-site variance.
+close for a depth-5 crawl. On `https://lifehacker.com/`, Python 3.15.0b3 was
+fastest at 426.0 ms mean, followed by Python 3.14t at 440.7 ms and Python
+3.14.6 at 470.4 ms. See [benchmark.md](benchmark.md) for commands, environment
+details, and notes about live-site variance.
 
 ## Programmatic Usage
 
