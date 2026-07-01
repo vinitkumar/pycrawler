@@ -10,6 +10,8 @@ from concurrent.futures import ThreadPoolExecutor
 from traceback import format_exc
 from typing import TYPE_CHECKING
 
+__lazy_modules__ = ["src.linkfetcher"]
+
 from src.linkfetcher import BrowserType, Linkfetcher
 from src.threading_utils import (
     ThreadSafeCounter,

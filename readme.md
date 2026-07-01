@@ -1,14 +1,15 @@
 # pycrawler
 
 [![Python package](https://github.com/vinitkumar/pycrawler/actions/workflows/test.yml/badge.svg)](https://github.com/vinitkumar/pycrawler/actions/workflows/test.yml)
-[![Python 3.13+](https://img.shields.io/badge/python-3.13+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.14-3.15](https://img.shields.io/badge/python-3.14--3.15-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-A modern Python web crawler with **free-threaded Python support** for true parallel execution. Built for Python 3.13+ with concurrent crawling capabilities that take full advantage of Python 3.14t (GIL disabled).
+A modern Python web crawler with **free-threaded Python support** for true parallel execution. Built for Python 3.14 and 3.15 with concurrent crawling capabilities that take full advantage of Python 3.14t (GIL disabled).
 
 ## Features
 
-- **Free-threaded Python Support**: True parallel execution on Python 3.13t/3.14t with GIL disabled
+- **Free-threaded Python Support**: True parallel execution on Python 3.14t with GIL disabled
+- **Python 3.15 Lazy Imports**: Uses Python 3.15's `__lazy_modules__` bridge to defer selected imports while remaining valid on Python 3.14
 - **Concurrent Crawling**: Thread pool-based concurrent mode for faster crawling
 - **Multiple Browser User-Agents**: Chromium, Firefox, Brave, Safari, and Edge
 - **Depth Control**: Configurable crawl depth with breadth-first traversal
@@ -18,7 +19,7 @@ A modern Python web crawler with **free-threaded Python support** for true paral
 
 ## Requirements
 
-- Python 3.13+ (CPython)
+- Python 3.14 or 3.15 (CPython)
 - beautifulsoup4 >= 4.14.3
 - rich >= 14.2.0
 
@@ -126,7 +127,14 @@ No of followed:     3
 
 ## Free-threaded Python
 
-This crawler is designed to take advantage of [free-threaded Python](https://docs.python.org/3.14/whatsnew/3.13.html#free-threaded-cpython) (Python 3.13t/3.14t with GIL disabled) for true parallel execution.
+This crawler is designed to take advantage of [free-threaded Python](https://docs.python.org/3.14/whatsnew/3.13.html#free-threaded-cpython) (Python 3.14t with GIL disabled) for true parallel execution.
+
+## Lazy Imports on Python 3.15
+
+Python 3.15 introduces explicit lazy imports. This project uses the compatible
+`__lazy_modules__` bridge for selected imports such as Beautiful Soup, Rich, and
+internal crawler modules. Python 3.14 ignores the bridge and imports eagerly;
+Python 3.15 can defer those imports until first use.
 
 ### Checking GIL Status
 
@@ -211,14 +219,14 @@ uv pip install -e ".[dev]"
 ### Linting (Ruff)
 
 ```sh
-uvx ruff check
-uvx ruff format
+uv run ruff check
+uv run ruff format
 ```
 
 ### Type Checking
 
 ```sh
-uvx ty check
+uv run ty check
 ```
 
 ### Running Tests
@@ -253,7 +261,7 @@ pycrawler/
 
 Tests run on GitHub Actions across:
 - **Operating Systems**: Ubuntu, macOS, Windows
-- **Python Versions**: 3.13, 3.14, 3.14t (free-threaded)
+- **Python Versions**: 3.14, 3.15, 3.14t (free-threaded)
 
 ## Issues
 
